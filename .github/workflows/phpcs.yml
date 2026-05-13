@@ -1,19 +1,50 @@
+name: Inspections
+
 on: pull_request
 
-name: Inspections
+permissions:
+  contents: read
+
 jobs:
   runPHPCSInspection:
     name: Run PHPCS inspection
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: phpcs-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-    - name: Run PHPCS inspection
-      uses: rtCamp/action-phpcs-code-review@v3
-      env:
-        GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
-        SKIP_FOLDERS: "tests,.github"
-        PHPCS_SNIFFS_EXCLUDE: "WordPress.Files.FileName"
-      with:
-        args: "WordPress,WordPress-Core,WordPress-Docs"
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
+
+      - name: Install cs2pr
+        run: |
+          curl -fsSL -o cs2pr https://github.com/staabm/annotate-pull-request-from-checkstyle/releases/latest/download/cs2pr-linux-amd64
+          chmod +x cs2pr
+
+      - name: Run PHPCS inspection
+        run: |
+          set +e
+          ./vendor/bin/phpcs \
+            --standard=WordPress,WordPress-Core,WordPress-Docs \
+            --ignore=tests/*,.github/* \
+            --exclude=WordPress.Files.FileName \
+            --report=checkstyle > phpcs-report.xml
+          phpcs_exit=$?
+
+          if [[ -s phpcs-report.xml ]]; then
+            ./cs2pr < phpcs-report.xml || true
+          fi
+
+          exit $phpcs_exit

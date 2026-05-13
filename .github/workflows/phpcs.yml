@@ -30,7 +30,7 @@ jobs:
 
       - name: Install cs2pr
         run: |
-          curl -fsSL -o cs2pr https://github.com/staabm/annotate-pull-request-from-checkstyle/releases/latest/download/cs2pr-linux-amd64
+          curl -fsSL -o cs2pr https://github.com/staabm/annotate-pull-request-from-checkstyle/releases/latest/download/cs2pr
           chmod +x cs2pr
 
       - name: Run PHPCS inspection

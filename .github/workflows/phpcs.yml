@@ -40,7 +40,9 @@ jobs:
             --standard=WordPress,WordPress-Core,WordPress-Docs \
             --ignore=tests/*,.github/* \
             --exclude=WordPress.Files.FileName \
-            --report=checkstyle > phpcs-report.xml
+            --report=checkstyle \
+            --report-file=phpcs-report.xml \
+            src
           phpcs_exit=$?
 
           if [[ -s phpcs-report.xml ]]; then

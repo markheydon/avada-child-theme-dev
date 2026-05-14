@@ -2,9 +2,25 @@
 
 ## Overview
 
-These are the source files for the [Avada Child Theme](https://github.com/markheydon/avada-child-theme) repo used as a starting point template for any WordPress Avada Child Theme project.
+This repository contains the development source and tooling for an Avada child theme starter.
 
-See the [markheydon/Avada-Child-Theme](https://github.com/markheydon/avada-child-theme) repo for details of what's included, this repo only contains details of the development side of things.
+The starter structure is based on Avada's official child theme documentation:
+
+- https://avada.com/documentation/avada-child-theme/
+
+This repo is focused on local development workflow (dev container, coding standards, and test setup), not distribution of the Avada parent theme.
+
+## Source and Licensing Notes
+
+This project does not include the Avada parent theme itself. Avada should be obtained and licensed through ThemeFusion.
+
+For the child-theme starter files in this repo, licensing depends on the originating code and your own additions. In practice:
+
+- Keep upstream notices and attribution where applicable.
+- Treat WordPress-derived code as GPL-compatible.
+- Add an explicit license only for code you author and have rights to license.
+
+This public repository includes a [NOTICE](NOTICE) file clarifying that this is an Avada child-theme development source repo and that Avada trademarks/theme files remain the property of their owners.
 
 ## Development Files
 

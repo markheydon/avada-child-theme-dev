@@ -3,7 +3,8 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM wordpress
+ARG WORDPRESS_IMAGE=wordpress:php8.4-apache
+FROM ${WORDPRESS_IMAGE}
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive

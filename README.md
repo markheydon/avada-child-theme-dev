@@ -2,9 +2,9 @@
 
 ## Overview
 
-These are the source files for the [Avada Child Theme](https://github.com/mhcg/avada-child-theme) repo used as a starting point template for any WordPress Avada Child Theme project.
+These are the source files for the [Avada Child Theme](https://github.com/markheydon/avada-child-theme) repo used as a starting point template for any WordPress Avada Child Theme project.
 
-See the [mhcg/Avada-Child-Theme](https://github.com/mhcg/avada-child-theme) repo for details of what's included, this repo only contains details of the development side of things.
+See the [markheydon/Avada-Child-Theme](https://github.com/markheydon/avada-child-theme) repo for details of what's included, this repo only contains details of the development side of things.
 
 ## Development Files
 
@@ -14,6 +14,28 @@ WordPress Standard Coding checking is included via `PHPCS` as well, run `compose
 
 This repo does not contain the Avada theme, it should be obtained through normal channels and installed onto this site before activating the child theme.
 
+### Running PHP Code Sniffer
+
+To run PHP Code Sniffer, after running `composer install`, use the following command in the terminal:
+
+```bash
+vendor/bin/phpcs --standard=WordPress src/
+```	
+
 ## Container Files
 
-Once up and running, the `~/wordpress` folder will be the root of the site, and the `~/src` folder will be mapped to `(site root)/wp-content/themes/Avada-Child-Theme`.
+Once up and running, the `/workspace/wordpress` folder is the site root in this devcontainer, and `/workspace/src` is mapped to `/var/www/html/wp-content/themes/Avada-Child-Theme` in the `wordpress` container.
+
+### PHP Version Pinning
+
+The dev container now pins WordPress to a PHP 8.4 base image via `.devcontainer/Dockerfile`:
+
+- `ARG WORDPRESS_IMAGE=wordpress:php8.4-apache`
+
+This avoids the floating `wordpress` default tag, which can point to a lower PHP release than your project requirement.
+
+If you change image tags or Dockerfile base images, rebuild the container so changes take effect:
+
+1. Rebuild and reopen the dev container from VS Code.
+2. Run `php -v` to verify PHP 8.4 is active.
+3. Run `composer update` again.

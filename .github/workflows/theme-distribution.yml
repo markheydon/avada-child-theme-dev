@@ -112,6 +112,11 @@ jobs:
           THEME_SLUG: ${{ needs.resolve-config.outputs.theme_slug }}
         run: |
           set -euo pipefail
+          if [[ ! -d src ]] || [[ -z "$(find src -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+            echo "src/ directory is missing or empty; refusing to build distribution package."
+            exit 1
+          fi
+
           stage_root="$RUNNER_TEMP/theme-build"
           stage_dir="$stage_root/$THEME_SLUG"
           mkdir -p "$stage_dir"
@@ -165,6 +170,11 @@ jobs:
       - name: Sync theme-only files from src
         run: |
           set -euo pipefail
+          if [[ ! -d source/src ]] || [[ -z "$(find source/src -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+            echo "source/src is missing or empty; refusing to sync with --delete."
+            exit 1
+          fi
+
           rsync -a --delete \
             --exclude '.git/' \
             --exclude 'vendor/' \

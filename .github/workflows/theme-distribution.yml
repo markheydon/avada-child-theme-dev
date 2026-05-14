@@ -119,6 +119,7 @@ jobs:
 
           stage_root="$RUNNER_TEMP/theme-build"
           stage_dir="$stage_root/$THEME_SLUG"
+          rm -rf "$stage_dir"
           mkdir -p "$stage_dir"
           rsync -a --delete src/ "$stage_dir/"
 
@@ -129,7 +130,10 @@ jobs:
               --no-interaction \
               --no-progress \
               --prefer-dist \
-              --optimize-autoloader
+              --optimize-autoloader || {
+                echo "composer install failed while building ZIP package dependencies."
+                exit 1
+              }
           fi
 
       - name: Create ZIP archive

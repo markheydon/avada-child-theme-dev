@@ -55,3 +55,41 @@ If you change image tags or Dockerfile base images, rebuild the container so cha
 1. Rebuild and reopen the dev container from VS Code.
 2. Run `php -v` to verify PHP 8.4 is active.
 3. Run `composer update` again.
+
+## Automated Theme Distribution
+
+This template includes `.github/workflows/theme-distribution.yml` to automate delivery of **theme-only** files from `src/`.
+
+### Supported modes
+
+- **ZIP package mode**: creates a clean ZIP containing only the theme files from `src/`.
+- **Repo sync mode**: optionally syncs only `src/` contents to a destination repo (for example a non-`-src` repo).
+
+On each published release, ZIP generation is enabled by default. Repo sync runs when a destination repo is configured.
+
+### Composer dependency behavior
+
+- For ZIP packages, if `src/composer.json` exists, the workflow runs `composer install --no-dev` in the staged theme directory so runtime dependencies are included in the ZIP.
+- For repo sync, `vendor/` is excluded so composer-installed dependencies are **not** synced to the destination repo.
+
+### Configuration
+
+Set these in repository **Variables** (Settings → Secrets and variables → Actions → Variables):
+
+- `THEME_DESTINATION_REPO` (optional): destination in `owner/repo` format.
+- `THEME_SLUG` (optional): theme folder name in the ZIP. Default is repo name without trailing `-src`.
+- `THEME_CREATE_ZIP` (optional): `true`/`false` for release-triggered ZIP creation (default `true`).
+- `THEME_SYNC_REPO` (optional): `true`/`false` for release-triggered repo sync (default `true`).
+
+Set this in repository **Secrets** when syncing to another repo:
+
+- `THEME_SYNC_TOKEN`: token with permission to push to the destination repository.
+
+### Manual runs
+
+Use **Actions → Theme Distribution → Run workflow** to override defaults per run:
+
+- `destination_repo`: optional destination repo for sync
+- `theme_slug`: optional override for ZIP theme folder name
+- `create_zip`: enable/disable ZIP output
+- `sync_repo`: enable/disable repo sync

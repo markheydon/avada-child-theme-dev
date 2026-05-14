@@ -24,7 +24,7 @@ vendor/bin/phpcs --standard=WordPress src/
 
 ## Container Files
 
-Once up and running, the `~/wordpress` folder will be the root of the site, and the `~/src` folder will be mapped to `(site root)/wp-content/themes/Avada-Child-Theme`.
+Once up and running, the `/workspace/wordpress` folder is the site root in this devcontainer, and `/workspace/src` is mapped to `/var/www/html/wp-content/themes/Avada-Child-Theme` in the `wordpress` container.
 
 ### PHP Version Pinning
 

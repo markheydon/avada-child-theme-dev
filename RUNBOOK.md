@@ -142,8 +142,9 @@ Test set 1: ZIP-only
 Expected result:
 
 - ZIP job runs.
-- Artifact named `theme-package` is uploaded.
-- ZIP contains only files staged from [src](src).
+- Artifact named `theme-package` is uploaded as a single file artifact.
+- Downloaded file is the installable theme ZIP (not a ZIP containing another ZIP).
+- Installable ZIP contains one top-level theme folder, and that folder contains only files staged from [src](src).
 
 Test set 2: Sync-only to disposable target
 
@@ -163,12 +164,14 @@ Publish a test release to validate release trigger behavior.
 Expected result:
 
 - ZIP suffix uses release tag.
+- Release includes the same installable theme ZIP as a release asset.
 - Sync runs only when destination is configured and sync is enabled.
 
 ### 3. Validate outputs
 
 ZIP validation checklist:
 
+- Download package is a single installable ZIP.
 - Archive has one top-level theme folder.
 - Contents match [src](src) payload.
 - No repository-level development files are included.
@@ -211,10 +214,14 @@ Repo sync excludes `vendor/` by design.
 	- Check `THEME_SLUG` and manual `theme_slug` input.
 	- For release runs, confirm release tag value.
 
-4. Local breakpoints not hitting in theme files
+4. Downloaded ZIP appears to contain another ZIP
+	- Confirm you downloaded the installable package from the release assets list.
+	- For manual runs, verify the artifact is configured as a single-file artifact and download the generated ZIP file directly.
+
+5. Local breakpoints not hitting in theme files
 	- Re-check theme path alignment in [docker-compose.yml](.devcontainer/docker-compose.yml) and [launch.json](.vscode/launch.json).
 
-5. WordPress asks for FTP credentials when installing plugin/theme ZIPs
+6. WordPress asks for FTP credentials when installing plugin/theme ZIPs
 	- Confirm `.devcontainer/setup.sh` completed successfully after container startup.
 	- Verify `wp-content/themes` and `wp-content/plugins` are writable in the container and use expected ownership/modes.
 	- Confirm `.devcontainer/docker-compose.yml` sets `WORDPRESS_CONFIG_EXTRA` with `FS_METHOD` set to `direct`.

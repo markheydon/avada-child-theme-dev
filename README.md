@@ -159,6 +159,8 @@ This template includes `.github/workflows/theme-distribution.yml` to automate de
 
 On each published release, ZIP generation is enabled by default. Repo sync runs when a destination repo is configured.
 
+ZIP package structure is WordPress-ready: the ZIP contains one top-level folder named by the theme slug, with the theme files inside that folder.
+
 ### Composer dependency behavior
 
 - For ZIP packages, if `src/composer.json` exists, the workflow runs `composer install --no-dev` in the staged theme directory so runtime dependencies are included in the ZIP.
@@ -185,6 +187,10 @@ Use **Actions → Theme Distribution → Run workflow** to override defaults per
 - `theme_slug`: optional override for ZIP theme folder name
 - `create_zip`: enable/disable ZIP output
 - `sync_repo`: enable/disable repo sync
+
+Manual ZIP runs upload the generated installable theme ZIP as a single-file artifact for validation.
+
+Release-triggered ZIP runs also attach that same installable ZIP as a release asset for end-user downloads.
 
 ## Using This Template For A New Child Theme
 
@@ -213,6 +219,7 @@ Use this quick checklist first, then follow [RUNBOOK.md](RUNBOOK.md) for full de
 
 - ZIP folder naming defaults to repository name with trailing `-src` removed.
 - Override with `THEME_SLUG` variable (or `theme_slug` in manual run input) when needed.
+- ZIP filename uses `theme-slug + release-tag` for release runs and `theme-slug + short-sha` for manual runs.
 
 ## Testing Theme Distribution (Quick Path)
 

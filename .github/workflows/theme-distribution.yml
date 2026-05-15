@@ -115,6 +115,8 @@ jobs:
     needs: resolve-config
     if: ${{ needs.resolve-config.outputs.create_zip == 'true' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout source repo
         uses: actions/checkout@v6
@@ -166,11 +168,23 @@ jobs:
           zip -r "$GITHUB_WORKSPACE/dist/$ZIP_NAME" "$THEME_SLUG"
 
       - name: Upload ZIP artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: theme-package
           path: dist/${{ needs.resolve-config.outputs.zip_name }}
           if-no-files-found: error
+          archive: false
+
+      - name: Upload ZIP as release asset
+        if: ${{ github.event_name == 'release' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          ZIP_NAME: ${{ needs.resolve-config.outputs.zip_name }}
+          SOURCE_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh release upload "$RELEASE_TAG" "dist/$ZIP_NAME" --repo "$SOURCE_REPOSITORY" --clobber
 
   sync-theme-repo:
     name: Sync theme files to destination repo

@@ -111,7 +111,9 @@ The `.devcontainer/setup.sh` startup script reduces initial setup time by automa
 
 ### Permissions Notes
 
-The setup script ensures WordPress content directories are writable for both `wp-cli` operations and wp-admin uploads. In particular, it normalizes `wp-content/uploads`, `wp-content/upgrade`, and `wp-content/languages` (including `wp-content/languages/plugins` and `wp-content/languages/themes`) permissions/ownership to avoid common local failures when uploading plugin/theme ZIP files or installing/updating translation packs.
+The setup script ensures WordPress content directories are writable for both `wp-cli` operations and wp-admin uploads. In particular, it normalizes `wp-content/themes`, `wp-content/plugins`, `wp-content/uploads`, `wp-content/upgrade`, and `wp-content/languages` (including `wp-content/languages/plugins` and `wp-content/languages/themes`) permissions/ownership to avoid common local failures when uploading plugin/theme ZIP files or installing/updating translation packs.
+
+The devcontainer Compose configuration also injects `FS_METHOD` as `direct` using `WORDPRESS_CONFIG_EXTRA` so containerized environments (including Codespaces) do not fall back to FTP credential prompts when direct filesystem writes are available.
 
 The script is idempotent and can be re-run safely if needed.
 

@@ -39,6 +39,7 @@ services:
       WORDPRESS_DB_USER: ${MYSQL_USER:-wordyuser}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordypass}
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordydb}
+      WORDPRESS_CONFIG_EXTRA: "define( 'FS_METHOD', 'direct' );"
 
 networks:
   devnet:

@@ -43,6 +43,13 @@ echo "==> Database ready"
 
 echo "==> Ensuring writable WordPress content directories"
 sudo chmod 2775 /var/www/html/wp-content
+sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/themes
+sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/plugins
+sudo chgrp www-data /var/www/html/wp-content/themes
+sudo chmod 2775 /var/www/html/wp-content/themes
+sudo chgrp -R www-data /var/www/html/wp-content/plugins
+sudo find /var/www/html/wp-content/plugins -type d -exec chmod 2775 {} +
+sudo find /var/www/html/wp-content/plugins -type f -exec chmod 0664 {} +
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/upgrade
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages/plugins

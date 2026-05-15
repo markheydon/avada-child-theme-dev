@@ -214,6 +214,11 @@ Repo sync excludes `vendor/` by design.
 4. Local breakpoints not hitting in theme files
 	- Re-check theme path alignment in [docker-compose.yml](.devcontainer/docker-compose.yml) and [launch.json](.vscode/launch.json).
 
+5. WordPress asks for FTP credentials when installing plugin/theme ZIPs
+	- Confirm `.devcontainer/setup.sh` completed successfully after container startup.
+	- Verify `wp-content/themes` and `wp-content/plugins` are writable in the container and use expected ownership/modes.
+	- Confirm `.devcontainer/docker-compose.yml` sets `WORDPRESS_CONFIG_EXTRA` with `FS_METHOD` set to `direct`.
+
 ## Pre-Release Checklist
 
 1. Confirm theme metadata is correct in [src/style.css](src/style.css).

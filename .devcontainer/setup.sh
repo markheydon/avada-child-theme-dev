@@ -29,6 +29,11 @@ until wp db check --path=/var/www/html --allow-root >/dev/null 2>&1; do
 done
 
 echo "==> Database ready"
+
+echo "==> Ensuring writable WordPress content directories"
+sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/upgrade
+sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages
+
 if ! wp core is-installed --path=/var/www/html --allow-root >/dev/null 2>&1; then
     echo "==> Installing WordPress"
     wp core install \

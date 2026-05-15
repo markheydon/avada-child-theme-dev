@@ -5,9 +5,9 @@ services:
     networks:
       - devnet
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordpress}
-      MYSQL_USER: ${MYSQL_USER:-wordpress}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordydb}
+      MYSQL_USER: ${MYSQL_USER:-wordyuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordypass}
       MYSQL_RANDOM_ROOT_PASSWORD: "1"
     volumes:
       - db_data:/var/lib/mysql
@@ -36,9 +36,9 @@ services:
       - ../src:/var/www/html/wp-content/themes/Avada-Child-Theme
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordyuser}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordypass}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordydb}
 
 networks:
   devnet:

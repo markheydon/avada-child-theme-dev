@@ -26,7 +26,7 @@ on:
         default: true
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   resolve-config:
@@ -54,6 +54,7 @@ jobs:
           VAR_THEME_SLUG: ${{ vars.THEME_SLUG }}
           VAR_CREATE_ZIP: ${{ vars.THEME_CREATE_ZIP }}
           VAR_SYNC_REPO: ${{ vars.THEME_SYNC_REPO }}
+          SOURCE_REPOSITORY: ${{ github.repository }}
         run: |
           destination_repo="${INPUT_DESTINATION_REPO:-$VAR_DESTINATION_REPO}"
           theme_slug="${INPUT_THEME_SLUG:-$VAR_THEME_SLUG}"
@@ -72,13 +73,20 @@ jobs:
           destination_configured=false
           if [[ -n "$destination_repo" ]]; then
             destination_configured=true
+            if [[ "${destination_repo,,}" == "${SOURCE_REPOSITORY,,}" ]]; then
+              echo "destination_repo must not be the same as the source repository (${SOURCE_REPOSITORY})."
+              exit 1
+            fi
           fi
 
           if [[ -n "$RELEASE_TAG" ]]; then
-            zip_suffix="$RELEASE_TAG"
+            zip_suffix_raw="$RELEASE_TAG"
           else
-            zip_suffix="${GITHUB_SHA::7}"
+            zip_suffix_raw="${GITHUB_SHA::7}"
           fi
+
+          zip_suffix="${zip_suffix_raw//\//-}"
+          zip_suffix="${zip_suffix//\\/-}"
 
           zip_name="${theme_slug}-${zip_suffix}.zip"
 
@@ -158,6 +166,8 @@ jobs:
     needs: resolve-config
     if: ${{ needs.resolve-config.outputs.sync_repo == 'true' && needs.resolve-config.outputs.destination_configured == 'true' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout source repo
         uses: actions/checkout@v6

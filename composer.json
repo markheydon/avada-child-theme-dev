@@ -20,7 +20,7 @@
     "scripts": {
         "lint": "phpcs --standard=phpcs.xml",
         "lint:fix": "phpcbf --standard=phpcs.xml",
-        "lint:php": "phpcs --standard=phpcs.xml --extensions=php --report=full .",
+        "lint:php": "phpcs --standard=phpcs.xml --extensions=php --report=full src",
         "standards": "phpcs -i"
     }
 }

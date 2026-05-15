@@ -7,7 +7,18 @@ echo "==> Installing Composer dependencies"
 composer install
 
 echo "==> Waiting for WordPress files"
+MAX_WORDPRESS_FILE_ATTEMPTS=30
+WORDPRESS_FILE_ATTEMPT=0
+
 until [ -f /var/www/html/wp-load.php ]; do
+    WORDPRESS_FILE_ATTEMPT=$((WORDPRESS_FILE_ATTEMPT + 1))
+    if [ "$WORDPRESS_FILE_ATTEMPT" -ge "$MAX_WORDPRESS_FILE_ATTEMPTS" ]; then
+        echo "ERROR: WordPress files did not become available in /var/www/html in time"
+        echo "Check the wordpress bind mount at /workspace/wordpress and container startup logs."
+        exit 1
+    fi
+
+    echo "Waiting for WordPress files... ($WORDPRESS_FILE_ATTEMPT/$MAX_WORDPRESS_FILE_ATTEMPTS)"
     sleep 2
 done
 

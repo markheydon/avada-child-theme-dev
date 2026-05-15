@@ -39,7 +39,9 @@ RUN apt-get update \
     && usermod -aG www-data ${USERNAME} \
     && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME} \
-    && curl -fsSL https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && curl -fsSL -o /tmp/composer-setup.php https://getcomposer.org/installer \
+    && php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm -f /tmp/composer-setup.php \
     && curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x /usr/local/bin/wp \
     && apt-get autoremove -y \

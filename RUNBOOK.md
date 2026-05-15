@@ -26,39 +26,39 @@ The template also includes optional Google Tag Manager (GTM) helper scaffolding 
 Update these first:
 
 1. [src/style.css](src/style.css)
-- Set `Theme Name` (display label in WordPress admin).
-- Set `Author` and `Author URI`.
-- Set `Text Domain` according to your translation approach.
+	- Set `Theme Name` (display label in WordPress admin).
+	- Set `Author` and `Author URI`.
+	- Set `Text Domain` according to your translation approach.
 
 2. [src/functions.php](src/functions.php)
-- Update package labels and project naming comments if needed.
+	- Update package labels and project naming comments if needed.
 
 3. [src/inc/gtm-helpers.php](src/inc/gtm-helpers.php)
-- Update package labels and project naming comments if needed.
+	- Update package labels and project naming comments if needed.
 
 ### 3. Align your local theme slug/path
 
 If your local theme folder slug changes, update all path-dependent files together:
 
 1. [.devcontainer/docker-compose.yml](.devcontainer/docker-compose.yml)
-- Theme mount path under `/var/www/html/wp-content/themes/...`.
+	- Theme mount path under `/var/www/html/wp-content/themes/...`.
 
 2. [.vscode/launch.json](.vscode/launch.json)
-- Xdebug `pathMappings` target path for the theme.
+	- Xdebug `pathMappings` target path for the theme.
 
 ### 4. Rebrand project metadata (recommended)
 
 1. [composer.json](composer.json)
-- Package `name` and description.
+	- Package `name` and description.
 
 2. [.devcontainer/devcontainer.json](.devcontainer/devcontainer.json)
-- Container display name.
+	- Container display name.
 
 3. [phpcs.xml](phpcs.xml)
-- Ruleset display name and description.
+	- Ruleset display name and description.
 
 4. [SECURITY.md](SECURITY.md)
-- Repository-specific security reporting URL.
+	- Repository-specific security reporting URL.
 
 ### 5. Function prefix guidance
 
@@ -198,19 +198,19 @@ Repo sync excludes `vendor/` by design.
 ## Common Issues And Fixes
 
 1. Sync job skipped unexpectedly
-- Check `sync_repo` value and destination configuration.
-- Confirm destination repo is set either in manual input or variable.
+	- Check `sync_repo` value and destination configuration.
+	- Confirm destination repo is set either in manual input or variable.
 
 2. Cross-repo push fails
-- Confirm `THEME_SYNC_TOKEN` exists and has correct permissions.
-- Confirm destination repository name and owner are correct.
+	- Confirm `THEME_SYNC_TOKEN` exists and has correct permissions.
+	- Confirm destination repository name and owner are correct.
 
 3. ZIP naming not as expected
-- Check `THEME_SLUG` and manual `theme_slug` input.
-- For release runs, confirm release tag value.
+	- Check `THEME_SLUG` and manual `theme_slug` input.
+	- For release runs, confirm release tag value.
 
 4. Local breakpoints not hitting in theme files
-- Re-check theme path alignment in [docker-compose.yml](.devcontainer/docker-compose.yml) and [launch.json](.vscode/launch.json).
+	- Re-check theme path alignment in [docker-compose.yml](.devcontainer/docker-compose.yml) and [launch.json](.vscode/launch.json).
 
 ## Pre-Release Checklist
 

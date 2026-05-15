@@ -8,11 +8,10 @@
     "features": {
         "ghcr.io/devcontainers/features/github-cli:1": {}
     },
-    "forwardPorts": [8080],
     "portsAttributes": {
-        "8080": {
-            "label": "WordPress",
-            "onAutoForward": "openBrowserOnce"
+        "80": {
+            "label": "WordPress (via Docker localhost:8080)",
+            "onAutoForward": "ignore"
         }
     },
     "postCreateCommand": "bash .devcontainer/setup.sh",

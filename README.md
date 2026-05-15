@@ -26,7 +26,12 @@ This repo is focused on local development environment (dev container, coding sta
 
 ### Notes
 
-- WordPress is configured for UK English (`en_GB`).
+- WordPress is configured with UK regional defaults on startup:
+	- Language: `en_GB` (English UK)
+	- Time zone: `Europe/London`
+	- Date format: `j F Y` (for example `15 May 2026`)
+	- Time format: `H:i` (24-hour format)
+	- Week starts on: Monday
 - Avada is a commercial product by ThemeFusion. Avada theme files are not included in this repository and must be obtained and licensed separately through official channels.
 
 ## Source and Licensing Notes
@@ -94,7 +99,15 @@ The `.devcontainer/setup.sh` startup script reduces initial setup time by automa
 - `composer install` for local tooling dependencies.
 - WordPress install (if not already installed).
 - Default local site/admin values for development.
-- UK English language installation and activation.
+- UK regional settings setup for local development:
+	- UK English language install/activation (`en_GB`)
+	- `Europe/London` timezone
+	- UK-style date/time formats (`j F Y`, `H:i`)
+	- Monday as first day of week
+
+### Permissions Notes
+
+The setup script also ensures WordPress content directories are writable for local `wp-cli` operations (for example language pack install/update). This avoids failures during translation updates when `wp-cli` needs to replace existing language directories.
 
 The script is idempotent and can be re-run safely if needed.
 

@@ -31,6 +31,7 @@ done
 echo "==> Database ready"
 
 echo "==> Ensuring writable WordPress content directories"
+sudo chmod 2775 /var/www/html/wp-content
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/upgrade
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages
 
@@ -54,6 +55,12 @@ else
     wp language core install en_GB --path=/var/www/html --allow-root || true
     wp site switch-language en_GB --path=/var/www/html --allow-root || true
 fi
+
+echo "==> Applying regional settings"
+wp option update timezone_string "Europe/London" --path=/var/www/html --allow-root
+wp option update date_format "j F Y" --path=/var/www/html --allow-root
+wp option update time_format "H:i" --path=/var/www/html --allow-root
+wp option update start_of_week "1" --path=/var/www/html --allow-root
 
 echo "==> Done"
 echo "Site:    http://localhost:8080"

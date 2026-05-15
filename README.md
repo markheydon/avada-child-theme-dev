@@ -4,6 +4,10 @@
 
 This repository is intended for development only. Theme files for deployment are produced from the `src/` folder via the automated distribution workflow.
 
+For a full end-to-end operational guide (template setup, renaming, distribution testing, and release validation), see [RUNBOOK.md](RUNBOOK.md).
+
+Template feature note: this starter includes optional Google Tag Manager (GTM) helper scaffolding in `src/` that you can keep, adapt, or remove.
+
 The Avada child theme starter structure is based on Avada's official child theme documentation:
 
 - https://avada.com/documentation/avada-child-theme/
@@ -169,3 +173,57 @@ Use **Actions → Theme Distribution → Run workflow** to override defaults per
 - `theme_slug`: optional override for ZIP theme folder name
 - `create_zip`: enable/disable ZIP output
 - `sync_repo`: enable/disable repo sync
+
+## Using This Template For A New Child Theme
+
+Use this quick checklist first, then follow [RUNBOOK.md](RUNBOOK.md) for full detail.
+
+### Required updates
+
+- Update WordPress theme header values in `src/style.css` (at minimum `Theme Name`, plus `Author`, `Author URI`, and `Text Domain` as needed).
+- If you rename the local theme folder slug/path, update both mount/debug paths so local development still works:
+	- `.devcontainer/docker-compose.yml`
+	- `.vscode/launch.json`
+
+### Recommended updates
+
+- Rebrand package metadata in `composer.json`.
+- Update project naming in `.devcontainer/devcontainer.json` and `phpcs.xml`.
+- Replace project-specific function prefix usage (currently `mhcg_`) in `src/functions.php` and `src/inc/gtm-helpers.php` if this template will be reused broadly.
+
+### Optional GTM integration
+
+- GTM support in this template is optional.
+- If your project does not use GTM, remove the GTM include/hooks from `src/functions.php` and remove GTM files in `src/inc/gtm-helpers.php`, `src/parts/gtm-head-code.html`, and `src/parts/gtm-body-code.html`.
+- See [RUNBOOK.md](RUNBOOK.md) for a step-by-step removal checklist.
+
+### Distribution naming behavior
+
+- ZIP folder naming defaults to repository name with trailing `-src` removed.
+- Override with `THEME_SLUG` variable (or `theme_slug` in manual run input) when needed.
+
+## Testing Theme Distribution (Quick Path)
+
+Use this short version for day-to-day checks. Use [RUNBOOK.md](RUNBOOK.md) for full validation steps and troubleshooting.
+
+### What can be tested now
+
+- The workflow supports manual `workflow_dispatch` runs from **Actions → Theme Distribution → Run workflow**.
+- You can test ZIP-only, sync-only, or both, without creating a release.
+
+### Fast test matrix
+
+- ZIP-only test:
+	- `create_zip=true`
+	- `sync_repo=false`
+	- `destination_repo` blank
+- Sync-only test (safe mode):
+	- `create_zip=false`
+	- `sync_repo=true`
+	- `destination_repo` set to a disposable test repository
+- Release-path test:
+	- publish a test release and verify tag-based ZIP naming.
+
+### Safety note
+
+- Sync uses `rsync --delete`; always test sync against a disposable destination repo before pointing to a production destination.

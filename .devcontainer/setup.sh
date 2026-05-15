@@ -45,6 +45,11 @@ echo "==> Ensuring writable WordPress content directories"
 sudo chmod 2775 /var/www/html/wp-content
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/upgrade
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages
+sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages/plugins
+sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/languages/themes
+sudo chgrp -R www-data /var/www/html/wp-content/languages
+sudo find /var/www/html/wp-content/languages -type d -exec chmod 2775 {} +
+sudo find /var/www/html/wp-content/languages -type f -exec chmod 0664 {} +
 sudo install -d -m 2775 -o www-data -g www-data /var/www/html/wp-content/uploads
 sudo chgrp -R www-data /var/www/html/wp-content/uploads
 sudo find /var/www/html/wp-content/uploads -type d -exec chmod 2775 {} +

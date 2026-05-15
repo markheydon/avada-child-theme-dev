@@ -111,7 +111,7 @@ The `.devcontainer/setup.sh` startup script reduces initial setup time by automa
 
 ### Permissions Notes
 
-The setup script ensures WordPress content directories are writable for both `wp-cli` operations and wp-admin uploads. In particular, it normalizes `wp-content/uploads`, `wp-content/upgrade`, and `wp-content/languages` permissions/ownership to avoid common local failures when uploading plugin/theme ZIP files or installing/updating translation packs.
+The setup script ensures WordPress content directories are writable for both `wp-cli` operations and wp-admin uploads. In particular, it normalizes `wp-content/uploads`, `wp-content/upgrade`, and `wp-content/languages` (including `wp-content/languages/plugins` and `wp-content/languages/themes`) permissions/ownership to avoid common local failures when uploading plugin/theme ZIP files or installing/updating translation packs.
 
 The script is idempotent and can be re-run safely if needed.
 

@@ -32,6 +32,11 @@ Collect and confirm these values before editing:
 - `prefix_new` (optional; only if prefix rebrand requested)
 - `security_contact_url` (optional; only if known)
 
+## Repository naming requirement
+
+- For default Theme Distribution slug behavior, repositories created from this template should end in `-dev`.
+- If the repository does not end in `-dev`, require an explicit `THEME_SLUG` (or manual `theme_slug`) in distribution configuration.
+
 If any required value is missing, ask for it and stop edits until provided.
 
 ## Step 1 - Present change plan first

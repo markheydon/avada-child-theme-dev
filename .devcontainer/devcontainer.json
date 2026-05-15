@@ -6,7 +6,8 @@
     "shutdownAction": "stopCompose",
     "remoteUser": "vscode",
     "features": {
-        "ghcr.io/devcontainers/features/github-cli:1": {}
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/markheydon/devcontainer-features/copilot-likes:1": {}
     },
     "portsAttributes": {
         "80": {

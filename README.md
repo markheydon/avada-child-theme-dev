@@ -1,4 +1,4 @@
-# Avada Child Theme Source Files
+# Avada Child Theme Development Repository
 
 ## Overview
 
@@ -16,7 +16,7 @@ This repo is focused on local development environment (dev container, coding sta
 
 ## Quick Start
 
-1. Create a new repository from this template.
+1. Create a new repository from this template. For default Theme Distribution behavior, name it with a trailing `-dev` suffix.
 2. Open the repository in VS Code.
 3. Reopen in Dev Container.
 4. Wait for container startup tasks to finish (including automatic WordPress setup via `.devcontainer/setup.sh`).
@@ -155,9 +155,11 @@ This template includes `.github/workflows/theme-distribution.yml` to automate de
 ### Supported modes
 
 - **ZIP package mode**: creates a clean ZIP containing only the theme files from `src/`.
-- **Repo sync mode**: optionally syncs only `src/` contents to a destination repo (for example a non-`-src` repo).
+- **Repo sync mode**: optionally syncs only `src/` contents to a destination repo (for example a non-`-dev` repo).
 
 On each published release, ZIP generation is enabled by default. Repo sync runs when a destination repo is configured.
+
+ZIP package structure is WordPress-ready: the ZIP contains one top-level folder named by the theme slug, with the theme files inside that folder.
 
 ### Composer dependency behavior
 
@@ -169,7 +171,7 @@ On each published release, ZIP generation is enabled by default. Repo sync runs 
 Set these in repository **Variables** (Settings → Secrets and variables → Actions → Variables):
 
 - `THEME_DESTINATION_REPO` (optional): destination in `owner/repo` format.
-- `THEME_SLUG` (optional): theme folder name in the ZIP. Default is repo name without trailing `-src`.
+- `THEME_SLUG` (optional): theme folder name in the ZIP. Default is repo name without trailing `-dev`.
 - `THEME_CREATE_ZIP` (optional): `true`/`false` for release-triggered ZIP creation (default `true`).
 - `THEME_SYNC_REPO` (optional): `true`/`false` for release-triggered repo sync (default `true`).
 
@@ -185,6 +187,15 @@ Use **Actions → Theme Distribution → Run workflow** to override defaults per
 - `theme_slug`: optional override for ZIP theme folder name
 - `create_zip`: enable/disable ZIP output
 - `sync_repo`: enable/disable repo sync
+
+Manual ZIP runs upload the generated installable theme ZIP as a single-file artifact for validation.
+
+Release-triggered ZIP runs also attach that same installable ZIP as a release asset for end-user downloads.
+
+### Repository naming requirement
+
+- Repositories created from this template should use a trailing `-dev` suffix when relying on default Theme Distribution slug behavior.
+- If your repository does not end in `-dev`, set `THEME_SLUG` (or `theme_slug` during manual runs) explicitly.
 
 ## Using This Template For A New Child Theme
 
@@ -211,8 +222,9 @@ Use this quick checklist first, then follow [RUNBOOK.md](RUNBOOK.md) for full de
 
 ### Distribution naming behavior
 
-- ZIP folder naming defaults to repository name with trailing `-src` removed.
+- ZIP folder naming defaults to repository name with trailing `-dev` removed.
 - Override with `THEME_SLUG` variable (or `theme_slug` in manual run input) when needed.
+- ZIP filename uses `theme-slug + release-tag` for release runs and `theme-slug + short-sha` for manual runs.
 
 ## Testing Theme Distribution (Quick Path)
 

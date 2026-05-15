@@ -19,7 +19,7 @@ Optional fast path: use the GitHub Copilot prompt [.github/prompts/theme-rebrand
 
 ### 1. Create your repository from this template
 
-1. Create a new repository from this template.
+1. Create a new repository from this template using a name that ends with `-dev` if you want default Theme Distribution slug behavior.
 2. Clone/open it in VS Code.
 3. Reopen in Dev Container and wait for setup to complete.
 
@@ -82,9 +82,11 @@ Distribution behavior is defined in [theme-distribution.yml](.github/workflows/t
 Set in repository settings under Actions Variables:
 
 - `THEME_DESTINATION_REPO` (optional): `owner/repo` destination for sync.
-- `THEME_SLUG` (optional): override theme folder slug for ZIP output.
+- `THEME_SLUG` (optional): override theme folder slug for ZIP output. When not set, the workflow defaults to repository name without trailing `-dev`.
 - `THEME_CREATE_ZIP` (optional): `true` or `false` default for release runs.
 - `THEME_SYNC_REPO` (optional): `true` or `false` default for release runs.
+
+If the repository name does not end with `-dev`, you must set `THEME_SLUG` (or provide `theme_slug` during manual runs) for distribution runs.
 
 ### 3. Configure Actions Secret for cross-repo sync
 
@@ -142,8 +144,9 @@ Test set 1: ZIP-only
 Expected result:
 
 - ZIP job runs.
-- Artifact named `theme-package` is uploaded.
-- ZIP contains only files staged from [src](src).
+- Artifact named `theme-package` is uploaded as a single file artifact.
+- Downloaded file is the installable theme ZIP (not a ZIP containing another ZIP).
+- Installable ZIP contains one top-level theme folder, and that folder contains only files staged from [src](src).
 
 Test set 2: Sync-only to disposable target
 
@@ -163,12 +166,14 @@ Publish a test release to validate release trigger behavior.
 Expected result:
 
 - ZIP suffix uses release tag.
+- Release includes the same installable theme ZIP as a release asset.
 - Sync runs only when destination is configured and sync is enabled.
 
 ### 3. Validate outputs
 
 ZIP validation checklist:
 
+- Download package is a single installable ZIP.
 - Archive has one top-level theme folder.
 - Contents match [src](src) payload.
 - No repository-level development files are included.
@@ -211,10 +216,14 @@ Repo sync excludes `vendor/` by design.
 	- Check `THEME_SLUG` and manual `theme_slug` input.
 	- For release runs, confirm release tag value.
 
-4. Local breakpoints not hitting in theme files
+4. Downloaded ZIP appears to contain another ZIP
+	- Confirm you downloaded the installable package from the release assets list.
+	- For manual runs, verify the artifact is configured as a single-file artifact and download the generated ZIP file directly.
+
+5. Local breakpoints not hitting in theme files
 	- Re-check theme path alignment in [docker-compose.yml](.devcontainer/docker-compose.yml) and [launch.json](.vscode/launch.json).
 
-5. WordPress asks for FTP credentials when installing plugin/theme ZIPs
+6. WordPress asks for FTP credentials when installing plugin/theme ZIPs
 	- Confirm `.devcontainer/setup.sh` completed successfully after container startup.
 	- Verify `wp-content/themes` and `wp-content/plugins` are writable in the container and use expected ownership/modes.
 	- Confirm `.devcontainer/docker-compose.yml` sets `WORDPRESS_CONFIG_EXTRA` with `FS_METHOD` set to `direct`.

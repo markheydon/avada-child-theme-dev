@@ -27,6 +27,13 @@ RUN apt-get update \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.client_host=127.0.0.1" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && { \
+                echo "upload_max_filesize=128M"; \
+                echo "post_max_size=128M"; \
+                echo "memory_limit=256M"; \
+                echo "max_execution_time=300"; \
+                echo "max_input_time=300"; \
+            } > /usr/local/etc/php/conf.d/uploads.ini \
     && groupadd --gid ${USER_GID} ${USERNAME} \
     && useradd -s /bin/bash --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
     && usermod -aG www-data ${USERNAME} \

@@ -111,7 +111,7 @@ The `.devcontainer/setup.sh` startup script reduces initial setup time by automa
 
 ### Permissions Notes
 
-The setup script also ensures WordPress content directories are writable for local `wp-cli` operations (for example language pack install/update). This avoids failures during translation updates when `wp-cli` needs to replace existing language directories.
+The setup script ensures WordPress content directories are writable for both `wp-cli` operations and wp-admin uploads. In particular, it normalizes `wp-content/uploads`, `wp-content/upgrade`, and `wp-content/languages` permissions/ownership to avoid common local failures when uploading plugin/theme ZIP files or installing/updating translation packs.
 
 The script is idempotent and can be re-run safely if needed.
 
@@ -128,6 +128,16 @@ If you change image tags or Dockerfile base images, rebuild the container so cha
 1. Rebuild and reopen the dev container from VS Code.
 2. Run `php -v` to verify PHP 8.4 is active.
 3. Run `composer update` again.
+
+### Theme Upload Limits
+
+The dev container sets higher PHP upload limits so WordPress admin theme ZIP uploads work in local development:
+
+- `upload_max_filesize=128M`
+- `post_max_size=128M`
+- `memory_limit=256M`
+
+If you change `.devcontainer/Dockerfile`, rebuild the dev container for those PHP settings to take effect.
 
 ### Mounting model
 

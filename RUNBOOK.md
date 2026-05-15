@@ -15,6 +15,8 @@ The template also includes optional Google Tag Manager (GTM) helper scaffolding 
 
 ## End-To-End Path A: Create A New Child Theme From This Template
 
+Optional fast path: use the GitHub Copilot prompt [.github/prompts/theme-rebrand.prompt.md](.github/prompts/theme-rebrand.prompt.md) to run this full rebrand flow in one guided pass.
+
 ### 1. Create your repository from this template
 
 1. Create a new repository from this template.

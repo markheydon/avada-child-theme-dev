@@ -2,13 +2,32 @@
 
 ## Overview
 
-This repository contains the development source and tooling for an Avada child theme starter.
+This repository is intended for development only. Theme files for deployment are produced from the `src/` folder via the automated distribution workflow.
 
-The starter structure is based on Avada's official child theme documentation:
+The Avada child theme starter structure is based on Avada's official child theme documentation:
 
 - https://avada.com/documentation/avada-child-theme/
 
-This repo is focused on local development workflow (dev container, coding standards, and test setup), not distribution of the Avada parent theme.
+This repo is focused on local development environment (dev container, coding standards, and test setup), not distribution of the Avada parent theme.
+
+## Quick Start
+
+1. Create a new repository from this template.
+2. Open the repository in VS Code.
+3. Reopen in Dev Container.
+4. Wait for container startup tasks to finish (including automatic WordPress setup via `.devcontainer/setup.sh`).
+5. Visit `http://localhost:8080`.
+
+
+### Admin Login
+
+- Username: `admin`
+- Password: `admin`
+
+### Notes
+
+- WordPress is configured for UK English (`en_GB`).
+- Avada is a commercial product by ThemeFusion. Avada theme files are not included in this repository and must be obtained and licensed separately through official channels.
 
 ## Source and Licensing Notes
 
@@ -26,21 +45,58 @@ This public repository includes a [NOTICE](NOTICE) file clarifying that this is 
 
 This repo includes VS Code Container files so this project can be worked on locally or via Codespaces. The general idea being, the files can be developed and tested before being released back into the release repo for use as a template. In a nutshell, all the files in the `src/` folder should end up in the release repo.
 
-WordPress Standard Coding checking is included via `PHPCS` as well, run `composer install` on the command line to install it otherwise errors will be reported about phpcs missing.
+WordPress Standard Coding checking is included via `PHPCS` as well. In Dev Container workflows, Composer dependencies are installed automatically by `.devcontainer/setup.sh` during startup. If you are not using the container workflow, run `composer install` manually.
 
 This repo does not contain the Avada theme, it should be obtained through normal channels and installed onto this site before activating the child theme.
 
-### Running PHP Code Sniffer
+### Coding Standards Commands
 
-To run PHP Code Sniffer, after running `composer install`, use the following command in the terminal:
+After dependencies are installed, use the Composer shortcuts for standards checking:
 
 ```bash
-vendor/bin/phpcs --standard=WordPress src/
-```	
+composer lint
+```
+
+Runs PHPCS using `phpcs.xml`.
+
+```bash
+composer lint:fix
+```
+
+Runs PHPCBF to auto-fix sniff violations where possible.
+
+```bash
+composer lint:php
+```
+
+Runs a PHP-only PHPCS scan with full reporting.
+
+```bash
+composer standards
+```
+
+Lists installed coding standards (useful for environment checks and debugging).
+
+If you need to run PHPCS directly, you can still use:
+
+```bash
+vendor/bin/phpcs --standard=phpcs.xml
+```
 
 ## Container Files
 
 Once up and running, the `/workspace/wordpress` folder is the site root in this devcontainer, and `/workspace/src` is mapped to `/var/www/html/wp-content/themes/Avada-Child-Theme` in the `wordpress` container.
+
+### Automated Setup Script
+
+The `.devcontainer/setup.sh` startup script reduces initial setup time by automating:
+
+- `composer install` for local tooling dependencies.
+- WordPress install (if not already installed).
+- Default local site/admin values for development.
+- UK English language installation and activation.
+
+The script is idempotent and can be re-run safely if needed.
 
 ### PHP Version Pinning
 
@@ -55,6 +111,13 @@ If you change image tags or Dockerfile base images, rebuild the container so cha
 1. Rebuild and reopen the dev container from VS Code.
 2. Run `php -v` to verify PHP 8.4 is active.
 3. Run `composer update` again.
+
+### Mounting model
+
+**Note**: The child theme folder is mounted separately over the WordPress tree, so changes to `src/` are reflected in the container without needing to rebuild. The mount structure is as follows:
+
+- `../wordpress` is mounted to `/var/www/html` so WordPress core/theme/plugin files are visible locally for debugging.
+- `../src` is mounted over `/var/www/html/wp-content/themes/Avada-Child-Theme` and is the source of truth for the child theme.
 
 ## Automated Theme Distribution
 

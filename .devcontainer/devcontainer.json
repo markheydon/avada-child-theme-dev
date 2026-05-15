@@ -1,20 +1,32 @@
 {
-	"name": "Avada Child Theme",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "wordpress",
-	"workspaceFolder": "/workspace",
-	"shutdownAction": "stopCompose",
-	"remoteUser": "vscode",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ikappas.composer",
-				"shevaua.phpcs",
-				"xdebug.php-debug"
-			]
-		},
-		"settings": {
-			"terminal.integrated.defaultProfile.linux": "bash"
-		}
-	}
+    "name": "Avada Child Theme",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "wordpress",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    "forwardPorts": [8080],
+    "portsAttributes": {
+        "8080": {
+            "label": "WordPress",
+            "onAutoForward": "openBrowserOnce"
+        }
+    },
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "xdebug.php-debug"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "editor.formatOnSave": false,
+                "php.validate.executablePath": "/usr/local/bin/php"
+            }
+        }
+    }
 }

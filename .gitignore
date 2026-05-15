@@ -3,3 +3,4 @@ wordpress/
 vendor/
 node_modules/
 xdebug.log
+.phpcs.cache

@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in this project, please report it responsibly using [GitHub's private vulnerability reporting](https://github.com/markheydon/avada-child-theme-src/security/advisories/new) rather than opening a public issue.
+If you discover a security vulnerability in this project, please report it responsibly using [GitHub's private vulnerability reporting](https://github.com/markheydon/avada-child-theme-dev/security/advisories/new) rather than opening a public issue.
 
 This allows the details to remain private until a fix is in place.
 

@@ -19,7 +19,7 @@ Optional fast path: use the GitHub Copilot prompt [.github/prompts/theme-rebrand
 
 ### 1. Create your repository from this template
 
-1. Create a new repository from this template.
+1. Create a new repository from this template using a name that ends with `-dev` if you want default Theme Distribution slug behavior.
 2. Clone/open it in VS Code.
 3. Reopen in Dev Container and wait for setup to complete.
 
@@ -82,9 +82,11 @@ Distribution behavior is defined in [theme-distribution.yml](.github/workflows/t
 Set in repository settings under Actions Variables:
 
 - `THEME_DESTINATION_REPO` (optional): `owner/repo` destination for sync.
-- `THEME_SLUG` (optional): override theme folder slug for ZIP output.
+- `THEME_SLUG` (optional): override theme folder slug for ZIP output. When not set, the workflow defaults to repository name without trailing `-dev`.
 - `THEME_CREATE_ZIP` (optional): `true` or `false` default for release runs.
 - `THEME_SYNC_REPO` (optional): `true` or `false` default for release runs.
+
+If the repository name does not end with `-dev`, you must set `THEME_SLUG` (or provide `theme_slug` during manual runs) for distribution runs.
 
 ### 3. Configure Actions Secret for cross-repo sync
 

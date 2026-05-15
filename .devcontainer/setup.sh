@@ -55,6 +55,25 @@ sudo chgrp -R www-data /var/www/html/wp-content/uploads
 sudo find /var/www/html/wp-content/uploads -type d -exec chmod 2775 {} +
 sudo find /var/www/html/wp-content/uploads -type f -exec chmod 0664 {} +
 
+ensure_uk_locale() {
+    echo "==> Installing UK English language pack"
+    if ! wp language core install en_GB --path=/var/www/html --allow-root; then
+        echo "ERROR: Failed to install en_GB language pack."
+        exit 1
+    fi
+
+    if ! wp site switch-language en_GB --path=/var/www/html --allow-root; then
+        echo "ERROR: Failed to switch site language to en_GB."
+        exit 1
+    fi
+
+    ACTIVE_LOCALE="$(wp option get WPLANG --path=/var/www/html --allow-root | tr -d '\r')"
+    if [ "$ACTIVE_LOCALE" != "en_GB" ]; then
+        echo "ERROR: Expected active locale en_GB but found '$ACTIVE_LOCALE'."
+        exit 1
+    fi
+}
+
 if ! wp core is-installed --path=/var/www/html --allow-root >/dev/null 2>&1; then
     echo "==> Installing WordPress"
     wp core install \
@@ -66,14 +85,10 @@ if ! wp core is-installed --path=/var/www/html --allow-root >/dev/null 2>&1; the
         --admin_email="admin@example.com" \
         --skip-email \
         --allow-root
-
-    echo "==> Installing UK English language pack"
-    wp language core install en_GB --path=/var/www/html --allow-root || true
-    wp site switch-language en_GB --path=/var/www/html --allow-root || true
+    ensure_uk_locale
 else
     echo "==> WordPress already installed"
-    wp language core install en_GB --path=/var/www/html --allow-root || true
-    wp site switch-language en_GB --path=/var/www/html --allow-root || true
+    ensure_uk_locale
 fi
 
 echo "==> Applying regional settings"

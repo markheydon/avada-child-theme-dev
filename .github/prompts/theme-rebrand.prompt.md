@@ -50,43 +50,43 @@ Then proceed.
 ## Step 2 - Update theme identity files
 
 1. `src/style.css`
-- Update `Theme Name` to `theme_name`.
-- Update `Author` and `Author URI`.
-- Update `Text Domain` to `text_domain`.
+  - Update `Theme Name` to `theme_name`.
+  - Update `Author` and `Author URI`.
+  - Update `Text Domain` to `text_domain`.
 
 2. `src/functions.php`
-- Update project/package naming comments where applicable.
-- Update text-domain literals if present and rebrand-related.
+  - Update project/package naming comments where applicable.
+  - Update text-domain literals if present and rebrand-related.
 
 3. `src/inc/gtm-helpers.php`
-- Update project/package naming comments where applicable.
-- Update text-domain literals if present and rebrand-related.
+  - Update project/package naming comments where applicable.
+  - Update text-domain literals if present and rebrand-related.
 
 ## Step 3 - Update slug/path-dependent files together
 
 If `theme_slug` differs from current slug, update all path mappings in the same pass:
 
 1. `.devcontainer/docker-compose.yml`
-- Update the mounted theme path under `/var/www/html/wp-content/themes/...`.
+  - Update the mounted theme path under `/var/www/html/wp-content/themes/...`.
 
 2. `.vscode/launch.json`
-- Update Xdebug `pathMappings` target path for the same slug.
+  - Update Xdebug `pathMappings` target path for the same slug.
 
 Never update only one of these files.
 
 ## Step 4 - Update project metadata
 
 1. `composer.json`
-- Update package name/description to match the rebrand.
+  - Update package name/description to match the rebrand.
 
 2. `.devcontainer/devcontainer.json`
-- Update container display name if project naming changed.
+  - Update container display name if project naming changed.
 
 3. `phpcs.xml`
-- Update ruleset name/description if project naming changed.
+  - Update ruleset name/description if project naming changed.
 
 4. `SECURITY.md`
-- Update security reporting URL/contact if provided.
+  - Update security reporting URL/contact if provided.
 
 ## Step 5 - Optional prefix rebrand
 
@@ -104,12 +104,12 @@ If not requested, keep existing prefix and state that it was intentionally uncha
 After edits:
 
 1. Re-open all changed files and verify:
-- `theme_name`, `theme_slug`, and `text_domain` are consistent.
-- Slug/path mapping matches in both `.devcontainer/docker-compose.yml` and `.vscode/launch.json`.
+  - `theme_name`, `theme_slug`, and `text_domain` are consistent.
+  - Slug/path mapping matches in both `.devcontainer/docker-compose.yml` and `.vscode/launch.json`.
 
 2. Run repository lint/check commands that are already documented and available.
-- Prefer minimal relevant checks.
-- If a check cannot run, report why.
+  - Prefer minimal relevant checks.
+  - If a check cannot run, report why.
 
 3. Provide a final summary table:
 

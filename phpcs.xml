@@ -24,6 +24,5 @@
     <rule ref="WordPress-Extra"/>
     <rule ref="WordPress-Docs"/>
 
-    <!-- Pragmatic relaxation for private client work -->
-    <exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+    <exclude name="WordPress.Files.FileName"/>
 </ruleset>

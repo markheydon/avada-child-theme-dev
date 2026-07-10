@@ -4,22 +4,44 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Europe/London"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    assignees:
+      - "markheydon"
 
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Europe/London"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    assignees:
+      - "markheydon"
+    groups:
+      minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "docker"
     directory: "/.devcontainer"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Europe/London"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    assignees:
+      - "markheydon"

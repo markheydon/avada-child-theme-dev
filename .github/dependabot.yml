@@ -12,6 +12,14 @@ updates:
       - "dependencies"
     assignees:
       - "markheydon"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "composer"
     directory: "/"
